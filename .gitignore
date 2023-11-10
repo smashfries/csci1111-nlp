@@ -1,2 +1,4 @@
 data
 .DS_Store
+checkstyle-9.2.1-all.jar
+CS1111_checks.xml
