@@ -35,4 +35,10 @@ public class Sentence {
                 this.timestamp = timestamp;
         }
 
+        public String toString() {
+                String reply = "{author:" + author + ", "  + "sentence:" + text + ", " + "timestamp: " + timestamp;
+                return reply;
+
+        }
+
 }
