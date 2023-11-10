@@ -23,4 +23,12 @@ public class Sentence {
                 return timestamp;
         }
 
+        public String toString() {
+                String reply = "{author:" + author + ", "  + "sentence:" + text + ", " + "timestamp: " + timestamp;
+                return reply;
+
+        }
+
+
+
 }
