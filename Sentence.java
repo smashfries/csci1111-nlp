@@ -52,7 +52,7 @@ public class Sentence {
                 String[] datetimest = convertLine[2].split(" ");
                 String comptime = datetimest[1] + " " + datetimest[2] + " " + datetimest[5];
                                         
-                Sentence sentence = new Sentence(convertLine[5],convertLine[4],comptime);
+                Sentence sentence = new Sentence(convertLine[5], convertLine[4], comptime);
                 
                 System.out.println(line);
                 System.out.println(convertLine.length);
