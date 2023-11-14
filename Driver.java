@@ -1,11 +1,15 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Driver {
-        public static void main(String[] args) { 
+
+        public static void main(String[] args) {
+                // ArrayList of sentences from the csv file.
+                ArrayList<Sentence> sentences = new ArrayList<>();
                 try {
-                        // File goes to  the csv file path.
+                        // File goes to the csv file path.
                         File myObj = new File("data/testdata.manual.2009.06.14.csv");
                         Scanner myReader = new Scanner(myObj);
 
@@ -14,6 +18,12 @@ public class Driver {
 
                                 // string called data is the next line of the csv file.
                                 String data = myReader.nextLine();
+
+                                // converts line to a sentence object
+                                Sentence sentence = Sentence.convertLine(data);
+
+                                // adds sentence to the arraylist
+                                sentences.add(sentence);
 
                                 // prints out the line
                                 System.out.println(data);
