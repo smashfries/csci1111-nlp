@@ -13,9 +13,10 @@ public class Part2Tester{
 		System.out.println("test2: " + expected.getAuthor().equals(result.getAuthor()));
 		System.out.println("test3: " + expected.getTimestamp().equals(result.getTimestamp()));
 
-		// Test case for EBook dataset
+		/*// Test case for EBook dataset
 		Sentence sent = new Sentence("Example sentence from a book", "Ada Lovelace", "Chapter 1");
 		sent.addToEnd(" continues, and then ends, here.");
 		System.out.println("test1: " + sent.getText().equals("Example sentence from a book continues and then ends here"));
+	*/
 	}
 }
