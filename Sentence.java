@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Sentence {
@@ -63,6 +64,16 @@ public class Sentence {
 
                 return sentence;
                 
+        }
+
+        public ArrayList<String> splitSentence() {
+                String[] pieces = text.split(" ");
+                ArrayList<String> arrlist = new ArrayList<>();
+
+                for (int i = 0; i < pieces.length; i++) {
+                        arrlist.add(pieces[i]);
+                }
+                return arrlist;
         }
 
 

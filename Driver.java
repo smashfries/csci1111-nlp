@@ -27,6 +27,7 @@ public class Driver {
 
                                 // prints out the line
                                 System.out.println(data);
+                                
                         }
                         myReader.close();
 
