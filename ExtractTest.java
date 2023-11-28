@@ -14,7 +14,7 @@ public class ExtractTest {
 		System.out.println("test1: " + expected.getText().equals(result.getText()));
 
 		// Test case for Timestamp
-		System.out.println("test6: " + expected.getTimestamp().equals(result.getTimestamp()));
+		System.out.println("test2: " + expected.getTimestamp().equals(result.getTimestamp()));
 
 	}
 
