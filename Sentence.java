@@ -70,6 +70,21 @@ public class Sentence {
 
         }
 
+        public static ArrayList<String> lemmatize(ArrayList<Sentence> sentences) {
+                StanfordLemmatizer lemmatizer = new StanfordLemmatizer();
+                ArrayList<String> result = new ArrayList<String>();
+
+                for (int i = 0; i < sentences.size(); i++) {
+                      result.add(lemmatizer.lemmatize(sentences.get(i).getText()));
+                }
+
+                ArrayList<String> withoutStopWords = removeStopWords(result);
+
+                return withoutStopWords;
+
+                
+  }
+
         public ArrayList<String> splitSentence() {
                 String[] pieces = text.split(" ");
 
