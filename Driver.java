@@ -65,26 +65,38 @@ public class Driver {
         public static HashMap<String, Integer> printTopWords(ArrayList<Sentence> sentences) {
 
                 HashMap<String, Integer> hashMap = new HashMap<>();
-                for (int h = 0; h < sentences.size(); h++) {
-                        Sentence sentence = sentences.get(h);
-
-                      
-                        // without lemmatization
-                        // ArrayList<String> words = sentence.splitSentence();
-      
-
-                        // with lemmatization
+                // with lemmatization
                         ArrayList<String> words = Sentence.lemmatize(sentences);
-                        for (int b = 0; b < words.size(); b++) {
-                                if (hashMap.get(words.get(b)) != null) {
+                         for (int b = 0; b < words.size(); b++) {
+                                if (hashMap.get
+                                (words.get(b)) != null) {
                                         hashMap.put(words.get(b), hashMap.get(words.get(b)) + 1);
 
                                 } else {
                                         hashMap.put(words.get(b), 1);
                                 }
                         }
+                        // without lemmatization
+                // for (int h = 0; h < sentences.size(); h++) {
+                //         Sentence sentence = sentences.get(h);
 
-                }
+                      
+                        
+                //          ArrayList<String> words = sentence.splitSentence();
+      
+
+                        
+                //         for (int b = 0; b < words.size(); b++) {
+                //                 if (hashMap.get
+                //                 (words.get(b)) != null) {
+                //                         hashMap.put(words.get(b), hashMap.get(words.get(b)) + 1);
+
+                //                 } else {
+                //                         hashMap.put(words.get(b), 1);
+                //                 }
+                //         }
+
+                // }
                 return hashMap;
 
         }

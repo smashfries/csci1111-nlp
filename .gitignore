@@ -3,3 +3,6 @@ data
 checkstyle-9.2.1-all.jar
 CS1111_checks.xml
 *.class
+stanford-english-corenlp-2018-10-05-models.jar
+stanford-corenlp-full-2018-10-05
+*.jar

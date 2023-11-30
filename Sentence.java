@@ -75,7 +75,7 @@ public class Sentence {
                 ArrayList<String> result = new ArrayList<String>();
 
                 for (int i = 0; i < sentences.size(); i++) {
-                      result.add(lemmatizer.lemmatize(sentences.get(i).getText()));
+                      result.addAll(lemmatizer.lemmatize(sentences.get(i).getText()));
                 }
 
                 ArrayList<String> withoutStopWords = removeStopWords(result);
@@ -88,12 +88,13 @@ public class Sentence {
         public ArrayList<String> splitSentence() {
                 String[] pieces = text.split(" ");
 
-                ArrayList<String> arrlist = removeStopWords(pieces);
+
+                ArrayList<String> arrlist = removeStopWords(new ArrayList<>(Arrays.asList(pieces)));
 
                 return arrlist;
         }
 
-        private static ArrayList<String> removeStopWords(String[] words) {
+        private static ArrayList<String> removeStopWords(ArrayList<String> words) {
                 String[] stopwords = { "-lrb-", "-rrb-", "'s", ":", "''", "!", "?", "", "-", "a", "about", "above",
                                 "after", "again", "against", "all", "am", "an", "and", "any", "are", "aren't", "as",
                                 "at", "be", "because", "been", "before", "being", "below", "between", "both", "but",
@@ -116,17 +117,17 @@ public class Sentence {
 
                 ArrayList<String> arrlist = new ArrayList<>();
 
-                for (int i = 0; i < words.length; i++) {
+                for (int i = 0; i < words.size(); i++) {
                         boolean isStopWord = false;
                         for (int j = 0; j < stopwords.length; j++) {
-                                if (words[i].toLowerCase().equals(stopwords[j])) {
+                                if (words.get(i).toLowerCase().equals(stopwords[j])) {
                                         isStopWord = true;
                                         break;
                                 }
                         }
                         if (!isStopWord) {
 
-                                arrlist.add(words[i]);
+                                arrlist.add(words.get(i));
                         }
                 }
 
