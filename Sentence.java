@@ -1,5 +1,18 @@
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Properties;
+
+import java.util.Date;
+import org.ejml.simple.SimpleMatrix;
+import edu.stanford.nlp.ling.CoreAnnotations;
+import edu.stanford.nlp.neural.rnn.RNNCoreAnnotations;
+import edu.stanford.nlp.pipeline.Annotation;
+import edu.stanford.nlp.pipeline.StanfordCoreNLP;
+import edu.stanford.nlp.sentiment.SentimentCoreAnnotations;
+import edu.stanford.nlp.sentiment.SentimentCoreAnnotations.SentimentAnnotatedTree;
+import edu.stanford.nlp.trees.Tree;
+import edu.stanford.nlp.util.CoreMap;
 
 // Blueprint for Sentence object
 public class Sentence {
@@ -13,6 +26,16 @@ public class Sentence {
                 this.author = author;
                 this.timestamp = timestamp;
 
+        }
+
+        public int getSentiment() {
+                Properties props = new Properties();
+                props.setProperty("annotators", "tokenize, ssplit, pos, parse, sentiment");
+                StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
+                Annotation annotation = pipeline.process(text);
+                CoreMap sentence = annotation.get(CoreAnnotations.SentencesAnnotation.class).get(0);
+                Tree tree = sentence.get(SentimentCoreAnnotations.SentimentAnnotatedTree.class);
+                return RNNCoreAnnotations.getPredictedClass(tree);
         }
 
         // gets text
@@ -93,8 +116,9 @@ public class Sentence {
         }
 
         private static ArrayList<String> removeStopWords(ArrayList<String> words) {
-                // vscode messes with indentation when formatting: fix before running checkstyle,
-                //after formating, do shift tab on the lines  99 -116
+                // vscode messes with indentation when formatting: fix before running
+                // checkstyle,
+                // after formating, do shift tab on the lines 99 -116
                 String[] stopwords = { "-lrb-", "-rrb-", "'s", ":", "''", "!", "?", "", "-", "a", "about", "above",
                         "after", "again", "against", "all", "am", "an", "and", "any", "are", "aren't", "as",
                         "at", "be", "because", "been", "before", "being", "below", "between", "both", "but",
@@ -151,6 +175,22 @@ public class Sentence {
                 }
 
                 return phrases;
+        }
+
+        public boolean keep(String temporalRange) {
+                String[] dates = temporalRange.split("-");
+                try {
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd yyyy");
+                        Date parsedDate1 = dateFormat.parse(dates[0]);
+                        Date parsedDate2 = dateFormat.parse(dates[1]);
+                        Date parsedDate = dateFormat.parse(timestamp);
+
+                        return parsedDate.getTime() >= parsedDate1.getTime()
+                                        && parsedDate.getTime() <= parsedDate2.getTime();
+                } catch (Exception error) {
+                        System.out.println(error.toString());
+                        return false;
+                }
         }
 
 }

@@ -11,6 +11,7 @@ public class Driver {
         public static void main(String[] args) {
                 // ArrayList of sentences from the csv file.
                 ArrayList<Sentence> sentences = new ArrayList<>();
+                ArrayList<Sentence> focusSentences = new ArrayList<>();
                 try {
                         // File goes to the csv file path.
                         File myObj = new File("data/testdata.manual.2009.06.14.csv");
@@ -42,6 +43,7 @@ public class Driver {
 
                 HashMap<String, Integer> topwords = printTopWords(sentences);
 
+                // Prints out hashmap
                 Map.Entry<String, Integer> maxEntry = null;
                 for (Map.Entry<String, Integer> entry : topwords.entrySet())
                         if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0)
@@ -59,6 +61,22 @@ public class Driver {
                 for (int i = 0; i < results.size() && i < 100; i++)
                         System.out.println(results.get(i));
 
+                // for(int i = 0; i< sentences.size(); i++){
+
+                // // option 2
+                // Sentence mySentence = sentences.get(i);
+                // int sentimentscore = mySentence.getSentiment();
+
+                // System.out.println(mySentence + " --- Sentiment score: " + sentimentscore);
+                // }
+                // }
+                for (int i = 0; i < sentences.size(); i++) {
+                        boolean keep = sentences.get(i).keep("Jun 09 2009-Jun 10 2009");
+                        if (keep) {
+                                focusSentences.add(sentences.get(i));
+                                System.out.println(sentences.get(i).toString());
+                        }
+                }
         }
 
         public static HashMap<String, Integer> printTopWords(ArrayList<Sentence> sentences) {
