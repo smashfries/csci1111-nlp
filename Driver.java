@@ -6,7 +6,6 @@ import java.util.Scanner;
 import java.util.Map; //place with imports
 import java.util.Collections; //place with imports
 
-
 public class Driver {
 
         public static void main(String[] args) {
@@ -66,35 +65,39 @@ public class Driver {
 
                 HashMap<String, Integer> hashMap = new HashMap<>();
                 // with lemmatization
-                        ArrayList<String> words = Sentence.lemmatize(sentences);
-                         for (int b = 0; b < words.size(); b++) {
-                                if (hashMap.get
-                                (words.get(b)) != null) {
-                                        hashMap.put(words.get(b), hashMap.get(words.get(b)) + 1);
+                ArrayList<String> words = Sentence.lemmatize(sentences);
 
-                                } else {
-                                        hashMap.put(words.get(b), 1);
-                                }
+                ArrayList<String> bigrams = Sentence.ngramPhrases(words, 2);
+
+                ArrayList<String> trigrams = Sentence.ngramPhrases(words, 3);
+
+                words.addAll(bigrams);
+                words.addAll(trigrams);
+
+                for (int b = 0; b < words.size(); b++) {
+                        if (hashMap.get(words.get(b)) != null) {
+                                hashMap.put(words.get(b), hashMap.get(words.get(b)) + 1);
+
+                        } else {
+                                hashMap.put(words.get(b), 1);
                         }
-                        // without lemmatization
+                }
+
+                // without lemmatization
                 // for (int h = 0; h < sentences.size(); h++) {
-                //         Sentence sentence = sentences.get(h);
+                // Sentence sentence = sentences.get(h);
 
-                      
-                        
-                //          ArrayList<String> words = sentence.splitSentence();
-      
+                // ArrayList<String> words = sentence.splitSentence();
 
-                        
-                //         for (int b = 0; b < words.size(); b++) {
-                //                 if (hashMap.get
-                //                 (words.get(b)) != null) {
-                //                         hashMap.put(words.get(b), hashMap.get(words.get(b)) + 1);
+                // for (int b = 0; b < words.size(); b++) {
+                // if (hashMap.get
+                // (words.get(b)) != null) {
+                // hashMap.put(words.get(b), hashMap.get(words.get(b)) + 1);
 
-                //                 } else {
-                //                         hashMap.put(words.get(b), 1);
-                //                 }
-                //         }
+                // } else {
+                // hashMap.put(words.get(b), 1);
+                // }
+                // }
 
                 // }
                 return hashMap;
