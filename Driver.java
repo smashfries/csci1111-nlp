@@ -30,7 +30,7 @@ public class Driver {
                                 sentences.add(sentence);
 
                                 // prints out the line
-                                System.out.println(data);
+                                // System.out.println(data);
 
                         }
                         myReader.close();
@@ -63,20 +63,42 @@ public class Driver {
 
                 // for(int i = 0; i< sentences.size(); i++){
 
-                // // option 2
                 // Sentence mySentence = sentences.get(i);
                 // int sentimentscore = mySentence.getSentiment();
 
                 // System.out.println(mySentence + " --- Sentiment score: " + sentimentscore);
                 // }
+
+                
+                // for (int i = 0; i < sentences.size(); i++) {
+                //         boolean keep = sentences.get(i).keep("Jun 09 2009-Jun 10 2009");
+                //         if (keep) {
+                //                 focusSentences.add(sentences.get(i));
+                //                 System.out.println(sentences.get(i).toString());
+                //         }
                 // }
-                for (int i = 0; i < sentences.size(); i++) {
-                        boolean keep = sentences.get(i).keep("Jun 09 2009-Jun 10 2009");
-                        if (keep) {
-                                focusSentences.add(sentences.get(i));
-                                System.out.println(sentences.get(i).toString());
+
+
+                String word = "star trek";
+                int counter = 0;
+                int sum = 0;
+                for(int i = 0; i < sentences.size(); i++){
+                        Sentence sentence = sentences.get(i);
+                        String tweet = sentence.getText();
+
+                        ArrayList<String> words = sentence.splitSentence();
+
+                        if (words.contains(word)) {
+                                System.out.println(tweet);
+                                counter++;
+                                int sentiment = sentence.getSentiment();
+                                sum += sentiment;
                         }
                 }
+
+                System.out.println(counter);
+                float average = sum / counter;
+                System.out.println("Average sentiment score for " + word + ": " + average);
         }
 
         public static HashMap<String, Integer> printTopWords(ArrayList<Sentence> sentences) {
