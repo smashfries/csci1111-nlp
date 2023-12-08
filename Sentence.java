@@ -20,7 +20,7 @@ public class Sentence {
         private String author;
         private String timestamp;
 
-        // Constructor(Method) for Sentence passes in Text, Authort and timestamp
+        // Constructor(Method) for Sentence passes in Text, Author and timestamp
         public Sentence(String text, String author, String timestamp) {
                 this.text = text;
                 this.author = author;
@@ -28,6 +28,7 @@ public class Sentence {
 
         }
 
+        // returns sentiment score for the object's tweet
         public int getSentiment() {
                 Properties props = new Properties();
                 props.setProperty("annotators", "tokenize, ssplit, pos, parse, sentiment");
@@ -43,28 +44,33 @@ public class Sentence {
                 return text;
         }
 
-        // sets text in private with the argument(Uses new string), does not return text
+        // sets text
         public void setText(String text) {
                 this.text = text;
         }
 
+        // gets author
         public String getAuthor() {
                 return author;
 
         }
 
+        // sets author
         public void setAuthor(String author) {
                 this.author = author;
         }
 
+        // gets timestamp
         public String getTimestamp() {
                 return timestamp;
         }
 
+        // sets timestamp
         public void setTimestamp(String timestamp) {
                 this.timestamp = timestamp;
         }
 
+        // returns a string representation of the object
         public String toString() {
                 String reply = "{author:" + author + ", " + "sentence:\"" + text + "\", " + "timestamp:\"" + timestamp
                                 + "\"}";
@@ -72,27 +78,26 @@ public class Sentence {
 
         }
 
+        // takes a line from the csv as argument, and processes it into a sentence
+        // object
         public static Sentence convertLine(String line) {
 
-                String[] convertLine = line.split("\",");
-                for (int i = 0; i < convertLine.length; i++) {
-                        convertLine[i] = convertLine[i].replaceAll("\\.|,|\"", "");
+                String[] splitLine = line.split("\",");
+                for (int i = 0; i < splitLine.length; i++) {
+                        splitLine[i] = splitLine[i].replaceAll("\\.|,|\"", "");
                 }
-                // datetimest stores the timestamp
-                String[] datetimest = convertLine[2].split(" ");
-                // comptime formats the timestamp as Month/Day/year
-                String comptime = datetimest[1] + " " + datetimest[2] + " " + datetimest[5];
+                // string array of the parts of a timestamp
+                String[] timestampArr = splitLine[2].split(" ");
 
-                Sentence sentence = new Sentence(convertLine[5], convertLine[4], comptime);
+                // formattedTime stores the formated timestamp as Month/Day/year
+                String formattedTime = timestampArr[1] + " " + timestampArr[2] + " " + timestampArr[5];
 
-                System.out.println(line);
-                System.out.println(convertLine.length);
-                System.out.println(Arrays.toString(convertLine));
+                Sentence sentence = new Sentence(splitLine[5], splitLine[4], formattedTime);
 
                 return sentence;
-
         }
 
+        // takes sentences as argument and returns an arrayList of lemmas
         public static ArrayList<String> lemmatize(ArrayList<Sentence> sentences) {
                 StanfordLemmatizer lemmatizer = new StanfordLemmatizer();
                 ArrayList<String> result = new ArrayList<String>();
@@ -107,6 +112,7 @@ public class Sentence {
 
         }
 
+        // splits the tweet into words based on spaces
         public ArrayList<String> splitSentence() {
                 String[] pieces = text.split(" ");
 
@@ -115,10 +121,8 @@ public class Sentence {
                 return arrlist;
         }
 
+        // removes stopwords from an arrayList of words
         private static ArrayList<String> removeStopWords(ArrayList<String> words) {
-                // vscode messes with indentation when formatting: fix before running
-                // checkstyle,
-                // after formating, do shift tab on the lines 99 -116
                 String[] stopwords = { "-lrb-", "-rrb-", "'s", ":", "''", "!", "?", "", "-", "a", "about", "above",
                         "after", "again", "against", "all", "am", "an", "and", "any", "are", "aren't", "as",
                         "at", "be", "because", "been", "before", "being", "below", "between", "both", "but",
@@ -158,6 +162,7 @@ public class Sentence {
                 return arrlist;
         }
 
+        // returns an arrayList of ngrams based on argument n and arrayList of words
         public static ArrayList<String> ngramPhrases(ArrayList<String> words, int ngram) {
                 ArrayList<String> phrases = new ArrayList<String>();
                 for (int i = 0; i < words.size() - (ngram - 1); i++) {
@@ -177,16 +182,17 @@ public class Sentence {
                 return phrases;
         }
 
+        // given a string time range, determiens if the sentence is within it or not
         public boolean keep(String temporalRange) {
                 String[] dates = temporalRange.split("-");
                 try {
                         SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd yyyy");
-                        Date parsedDate1 = dateFormat.parse(dates[0]);
-                        Date parsedDate2 = dateFormat.parse(dates[1]);
-                        Date parsedDate = dateFormat.parse(timestamp);
+                        Date startDate = dateFormat.parse(dates[0]);
+                        Date endDate = dateFormat.parse(dates[1]);
+                        Date sentenceDate = dateFormat.parse(timestamp);
 
-                        return parsedDate.getTime() >= parsedDate1.getTime()
-                                        && parsedDate.getTime() <= parsedDate2.getTime();
+                        return sentenceDate.getTime() >= startDate.getTime()
+                                        && sentenceDate.getTime() <= endDate.getTime();
                 } catch (Exception error) {
                         System.out.println(error.toString());
                         return false;
